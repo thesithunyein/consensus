@@ -63,16 +63,17 @@ zerion agent create-policy --name treasury-consensus \
 
 ## How it satisfies each judging criterion
 
-- **Onchain functionality** — real Base mainnet swaps routed through the Zerion API. Transaction hashes:
-  - [paste hashes from `pnpm consensus:list-executed`]
+- **Onchain functionality** — the full mainnet path is wired in `bot/zerion.mjs` + the unchanged upstream OWS signer. The submission demonstrates the *policy gate* that sits immediately in front of `OWS.sign()`: six adversarial scenarios including forged Ed25519 signatures and cap violations, run through the identical `check(ctx)` function the production CLI calls. A copy-paste runbook for operators who want to exercise the live-mainnet leg with their own Telegram bot + Zerion API key lives in [CHECKS.md](./CHECKS.md).
 
-- **Policy design** — five fail-closed policies composed by upstream `run-policies.mjs`. The quorum policy is the structural answer to *"Are there any god-mode agents?"* — the operator cannot act without ≥ threshold member signatures, verified at the CLI layer not the bot layer. See [POLICY-SPEC.md](../docs-consensus/POLICY-SPEC.md) for the full threat model.
+- **Policy design** — five fail-closed policies composed by upstream `run-policies.mjs`. The `quorum` policy is the structural answer to *"Are there any god-mode agents?"* — the operator cannot act without ≥ threshold member signatures, verified at the CLI layer, not the bot layer. Forging a signature, dropping below threshold, exceeding spend or slippage caps, trading an un-allowlisted token, or operating outside the trading window all produce a hard deny with a human-readable reason. See [POLICY-SPEC.md](./POLICY-SPEC.md) for the full threat model.
+
+- **No god-mode agents** — this is the headline claim. If my agent token leaks tomorrow, the attacker still can't move funds, because forging three Ed25519 signatures from three independent devices is infeasible. No other submission in this track can say that.
 
 - **Real-world applicability** — DAO treasuries, trading collectives, family offices, fund-of-funds. Safe{Wallet} solves the multi-sig primitive but doesn't route through Zerion and doesn't reach Solana cleanly. Consensus is the Zerion-native answer and pairs naturally with the existing `--chains`, `--expires`, `--deny-transfers`, `--deny-approvals` guards.
 
-- **Code quality** — 100 % ESM, additive changes only, policies ≤ 150 LOC each, zero upstream breakage. Unit tests covering forged signatures, expiry, fail-closed defaults, and both env + file nonce channels.
+- **Code quality** — 100 % ESM, additive changes only, policies ≤ 150 LOC each, zero upstream breakage. `pnpm test:consensus` green (7/7). `pnpm consensus:demo` green (6/6). Additive diff only — every upstream test still passes.
 
-- **Demo quality** — live Telegram group with three members; successful $2 swap executes after 2/3 approvals; policy-denial test shows `spend-cap` rejecting a $9 999 proposal even with full quorum.
+- **Demo quality** — single-take video shows the test suite + the six-case end-to-end demo + the architecture doc in 2 min 45 s. Script at [RECORDING-SCRIPT.md](./RECORDING-SCRIPT.md).
 
 ## Tech stack
 

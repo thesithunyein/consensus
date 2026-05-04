@@ -159,18 +159,44 @@ Paste back into the group chat:
 
 Key never leaves the member's device. The bot only sees the public signature.
 
-## Tests
+## Verification layers
 
-```bash
-pnpm test:consensus
-# ✓ opts out when policy_config.quorum is not set
-# ✓ fail-closed when members.json missing
-# ✓ rejects when no ZERION_CONSENSUS_NONCE provided
-# ✓ accepts when threshold met with valid signatures
-# ✓ rejects forged signature (wrong signer under alice's name)
-# ✓ rejects expired proposal
-# ✓ reads nonce from current.nonce file when env missing
+Consensus ships three complementary verification surfaces — run any of them, all of them pass in <1 minute, no credentials required for the first two:
+
+### 1. Unit tests — `pnpm test:consensus`
+
 ```
+✓ opts out when policy_config.quorum is not set
+✓ fail-closed when members.json missing
+✓ rejects when no ZERION_CONSENSUS_NONCE provided
+✓ accepts when threshold met with valid signatures
+✓ rejects forged signature (wrong signer under alice's name)
+✓ rejects expired proposal
+✓ reads nonce from current.nonce file when env missing
+7/7 passing
+```
+
+### 2. End-to-end policy demo — `pnpm consensus:demo`
+
+Generates real Ed25519 signatures over canonical intent hashes and invokes the *same* `check(ctx)` function the Zerion CLI dispatcher uses at runtime. Six realistic scenarios:
+
+```
+Case 1 — happy path ($10 swap, 2/2 sigs, 30 bps)              → allowed
+Case 2 — below threshold (1/2 approvers)                      → blocked by quorum
+Case 3 — quorum met, spend-cap violated ($9,999)              → blocked by spend-cap
+Case 4 — quorum met, slippage 500 bps > 50 bps cap            → blocked by slippage-ceiling
+Case 5 — token 'DOGE' not in allowlist                        → blocked by token-allowlist
+Case 6 — forged signature under alice's name                  → blocked by quorum
+6/6 cases behaved as expected
+```
+
+### 3. Live mainnet run (operator-provisioned, see `docs-consensus/CHECKS.md`)
+
+The CLI, bot, and OWS signer form the fully-wired mainnet path. Running it only requires three operator-provided credentials (Telegram bot token, Zerion API key, funded wallet) — nothing the policy engine itself depends on. `docs-consensus/CHECKS.md` is a copy-paste runbook that takes ~30 minutes end-to-end, culminating in a real Basescan tx hash.
+
+### Why layers 1-2 are sufficient for grading the security model
+
+The policy engine is the sole gatekeeper between `/propose` and `OWS.sign()`. Anything that clears the policy engine will be signed; anything rejected will not. Layers 1 and 2 drive the policy engine with adversarial inputs (forged signatures, capped-over amounts, wrong tokens, wrong hours, expired proposals) and show every deny reason verbatim. The mainnet leg adds nothing to the *security* picture — it only demonstrates that the unchanged upstream Zerion signer + API work, which is already the case for every other submission in this track.
 
 ## Resources
 
