@@ -34,6 +34,7 @@
     "consensus:sign": "node scripts/consensus/sign.mjs",
     "consensus:doctor": "node scripts/consensus/doctor.mjs",
     "consensus:list-executed": "node scripts/consensus/list-executed.mjs",
+    "consensus:demo": "node scripts/consensus/demo.mjs",
     "prepublishOnly": "npm test"
   },
   "imports": {
