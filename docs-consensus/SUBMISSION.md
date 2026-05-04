@@ -20,7 +20,7 @@ Start here: [CONSENSUS.md](https://github.com/thesithunyein/consensus/blob/main/
 
 ## Demo video
 
-[YOUTUBE URL — record per [docs-consensus/DEMO.md](../docs-consensus/DEMO.md)]
+**▶ https://youtu.be/Cn0YWXk53RA**
 
 ## What I built
 

@@ -198,6 +198,10 @@ The CLI, bot, and OWS signer form the fully-wired mainnet path. Running it only 
 
 The policy engine is the sole gatekeeper between `/propose` and `OWS.sign()`. Anything that clears the policy engine will be signed; anything rejected will not. Layers 1 and 2 drive the policy engine with adversarial inputs (forged signatures, capped-over amounts, wrong tokens, wrong hours, expired proposals) and show every deny reason verbatim. The mainnet leg adds nothing to the *security* picture — it only demonstrates that the unchanged upstream Zerion signer + API work, which is already the case for every other submission in this track.
 
+## Demo video
+
+**▶ https://youtu.be/Cn0YWXk53RA** — 2:45 end-to-end walkthrough: unit tests, six-case policy demo, forged-signature rejection.
+
 ## Resources
 
 - Full threat model + policy spec: [`docs-consensus/POLICY-SPEC.md`](./docs-consensus/POLICY-SPEC.md)
