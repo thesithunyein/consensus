@@ -200,7 +200,7 @@ The policy engine is the sole gatekeeper between `/propose` and `OWS.sign()`. An
 
 ## Demo video
 
-**▶ https://youtu.be/Cn0YWXk53RA** — 2:45 end-to-end walkthrough: unit tests, six-case policy demo, forged-signature rejection.
+**▶ https://youtu.be/Cn0YWXk53RA** — 2:12 end-to-end walkthrough: unit tests, six-case policy demo, forged-signature rejection.
 
 ## Resources
 

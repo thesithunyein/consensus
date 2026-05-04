@@ -73,7 +73,7 @@ zerion agent create-policy --name treasury-consensus \
 
 - **Code quality** — 100 % ESM, additive changes only, policies ≤ 150 LOC each, zero upstream breakage. `pnpm test:consensus` green (7/7). `pnpm consensus:demo` green (6/6). Additive diff only — every upstream test still passes.
 
-- **Demo quality** — single-take video shows the test suite + the six-case end-to-end demo + the architecture doc in 2 min 45 s. Script at [RECORDING-SCRIPT.md](./RECORDING-SCRIPT.md).
+- **Demo quality** — single-take 2:12 video shows the test suite + the six-case end-to-end demo + the architecture doc. Script at [RECORDING-SCRIPT.md](./RECORDING-SCRIPT.md).
 
 ## Tech stack
 

@@ -4,7 +4,7 @@
 >
 > ➡️ **Start here: [CONSENSUS.md](./CONSENSUS.md)** — what's new, how to run it, architecture, tests.
 >
-> 🎥 **Demo video (2:45): https://youtu.be/Cn0YWXk53RA**
+> 🎥 **Demo video (2:12): https://youtu.be/Cn0YWXk53RA**
 >
 > Everything below is the upstream Zerion CLI documentation, unchanged.
 
