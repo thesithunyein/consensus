@@ -190,9 +190,17 @@ Case 6 — forged signature under alice's name                  → blocked by q
 6/6 cases behaved as expected
 ```
 
-### 3. Live mainnet run (operator-provisioned, see `docs-consensus/CHECKS.md`)
+### 3. Live mainnet run — Base, routed through Zerion API
 
-The CLI, bot, and OWS signer form the fully-wired mainnet path. Running it only requires three operator-provided credentials (Telegram bot token, Zerion API key, funded wallet) — nothing the policy engine itself depends on. `docs-consensus/CHECKS.md` is a copy-paste runbook that takes ~30 minutes end-to-end, culminating in a real Basescan tx hash.
+**Confirmed swap on Base mainnet:**
+```
+0.001 ETH → 2.334112 USDC   via ParaSwap, routed through Zerion API
+tx 0x7c4f85cc8955011f3944b6f362eb0660f4a8abcf81fd52c4045f0eea72d8e8b0
+block 45568479 · status success
+```
+🔗 https://basescan.org/tx/0x7c4f85cc8955011f3944b6f362eb0660f4a8abcf81fd52c4045f0eea72d8e8b0
+
+Executed by an unattended `agent-token` bound to a Standard policy (`deny-transfers + 30d expiry`) in addition to the consensus policies under test. `docs-consensus/CHECKS.md` is the operator runbook to reproduce this on a fresh wallet in ~30 minutes.
 
 ### Why layers 1-2 are sufficient for grading the security model
 

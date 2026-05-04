@@ -6,6 +6,8 @@
 >
 > 🎥 **Demo video (2:12): https://youtu.be/Cn0YWXk53RA**
 >
+> 🔗 **Live mainnet swap proof:** [`0x7c4f...e8b0`](https://basescan.org/tx/0x7c4f85cc8955011f3944b6f362eb0660f4a8abcf81fd52c4045f0eea72d8e8b0) — 0.001 ETH → 2.33 USDC on Base, routed through Zerion API.
+>
 > Everything below is the upstream Zerion CLI documentation, unchanged.
 
 ---
