@@ -32,6 +32,8 @@
     "consensus:bot": "node bot/index.mjs",
     "consensus:gen-keys": "node scripts/consensus/gen-member-keys.mjs",
     "consensus:sign": "node scripts/consensus/sign.mjs",
+    "consensus:doctor": "node scripts/consensus/doctor.mjs",
+    "consensus:list-executed": "node scripts/consensus/list-executed.mjs",
     "prepublishOnly": "npm test"
   },
   "imports": {

@@ -1,0 +1,28 @@
+{
+  "name": "Consensus — Zerion CLI fork",
+  "image": "mcr.microsoft.com/devcontainers/javascript-node:20",
+  "features": {
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+  "postCreateCommand": "npm install -g pnpm && pnpm install && pnpm link --global && echo '✅ Consensus ready — run: pnpm consensus:doctor'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "redhat.vscode-yaml"
+      ],
+      "settings": {
+        "terminal.integrated.defaultProfile.linux": "bash",
+        "files.eol": "\n"
+      }
+    },
+    "codespaces": {
+      "openFiles": ["CONSENSUS.md", "docs-consensus/CHECKS.md", ".env.consensus.example"]
+    }
+  },
+  "forwardPorts": [],
+  "remoteEnv": {
+    "CONSENSUS_STATE_DIR": "${containerWorkspaceFolder}/.consensus-local"
+  }
+}
