@@ -1,4 +1,12 @@
-# Zerion CLI
+# Zerion CLI — Consensus fork
+
+> **Frontier × Zerion hackathon submission.** This fork adds **Consensus**, an N-of-M multi-sig trading agent built on the Zerion CLI policy engine.
+>
+> ➡️ **Start here: [CONSENSUS.md](./CONSENSUS.md)** — what's new, how to run it, architecture, tests.
+>
+> Everything below is the upstream Zerion CLI documentation, unchanged.
+
+---
 
 CLI for [Zerion Wallet](https://zerion.io). Analyze wallets, sign, swap, and bridge on-chain with agent-managed wallets across EVM chains and Solana, all from the command line. Wallet management is built on the [Open Wallet Standard](https://github.com/open-wallet-standard/core).
 

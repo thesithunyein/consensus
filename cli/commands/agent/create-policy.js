@@ -74,6 +74,13 @@ export default async function agentCreatePolicy(args, flags) {
   if (flags["deny-approvals"]) execPolicies.push("deny-approvals");
   if (flags.allowlist) execPolicies.push("allowlist");
 
+  // 3b. Consensus policies (cli/policies/{quorum,spend-cap,slippage-ceiling,token-allowlist,time-window}.mjs)
+  if (flags.quorum) execPolicies.push("quorum");
+  if (flags["spend-cap-per-tx"] != null || flags["spend-cap-24h"] != null) execPolicies.push("spend-cap");
+  if (flags["max-slippage-bps"] != null) execPolicies.push("slippage-ceiling");
+  if (flags["token-allowlist"]) execPolicies.push("token-allowlist");
+  if (flags["trading-hours"] || flags["weekdays-only"]) execPolicies.push("time-window");
+
   if (execPolicies.length > 0) {
     // OWS supports one executable per policy — use a dispatcher
     executable = join(POLICIES_DIR, "run-policies.mjs");
@@ -83,6 +90,29 @@ export default async function agentCreatePolicy(args, flags) {
     if (flags.allowlist) {
       config.allowed_addresses = flags.allowlist.split(",").map((a) => a.trim());
     }
+    // Consensus config fields (all optional; policies are no-ops without them)
+    if (flags.quorum) config.quorum = true;
+    if (flags["spend-cap-per-tx"] != null) config.spend_cap_per_tx_usd = Number(flags["spend-cap-per-tx"]);
+    if (flags["spend-cap-24h"] != null)    config.spend_cap_24h_usd    = Number(flags["spend-cap-24h"]);
+    if (flags["max-slippage-bps"] != null) config.max_slippage_bps     = Number(flags["max-slippage-bps"]);
+    if (flags["token-allowlist"]) {
+      // Format: "base:USDC,ETH,WETH;ethereum:USDC,ETH"
+      config.token_allowlist = Object.fromEntries(
+        flags["token-allowlist"]
+          .split(";")
+          .map((group) => group.trim())
+          .filter(Boolean)
+          .map((group) => {
+            const [chain, toks] = group.split(":");
+            return [chain.trim(), toks.split(",").map((t) => t.trim()).filter(Boolean)];
+          }),
+      );
+    }
+    if (flags["trading-hours"]) {
+      const [s, e] = flags["trading-hours"].split("-").map((n) => Number(n.trim()));
+      if (Number.isFinite(s) && Number.isFinite(e)) config.trading_hours_utc = [s, e];
+    }
+    if (flags["weekdays-only"]) config.weekdays_only = true;
   }
 
   if (rules.length === 0 && !executable) {
