@@ -200,6 +200,10 @@ block 45568479 · status success
 ```
 🔗 https://basescan.org/tx/0x7c4f85cc8955011f3944b6f362eb0660f4a8abcf81fd52c4045f0eea72d8e8b0
 
+![Basescan transaction 0x7c4f...e8b0 — basescan labels the action as "Swap 0.001 ETH for 2.334112 USDC on Zerion", status Success, block 45568479](./docs-consensus/assets/basescan-proof.jpg)
+
+> Note: Basescan itself labels the **Transaction Action** as `Swap … on Zerion` — third-party confirmation that the trade was routed through the Zerion API.
+
 Executed by an unattended `agent-token` bound to a Standard policy (`deny-transfers + 30d expiry`) in addition to the consensus policies under test. `docs-consensus/CHECKS.md` is the operator runbook to reproduce this on a fresh wallet in ~30 minutes.
 
 ### Why layers 1-2 are sufficient for grading the security model
